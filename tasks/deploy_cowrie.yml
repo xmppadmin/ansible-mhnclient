@@ -120,8 +120,20 @@
     group: users
     recurse: yes
 
+- name: Ensure cowrie sub-directories exist
+  file:
+    path: "/opt/cowrie/{{ item }}"
+    owner: cowrie
+    mode: '0755'
+    state: directory
+  with_items:
+    - data
+    - log
+
 - name: create fake fs
-  command: "/opt/cowrie/bin/createfs.py > /opt/cowrie/data/fs.pickle creates=/opt/cowrie/data/fs.pickle"
+  shell: "/opt/cowrie/bin/createfs > /opt/cowrie/data/fs.pickle"
+  args:
+    creates: /opt/cowrie/data/fs.pickle
 
 #- name: customize accepted/denied user and passwords?
 #   dest: /opt/cowrie/data/userdb.txt

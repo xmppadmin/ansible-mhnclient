@@ -10,6 +10,8 @@ env:
 #  - distribution: centos
 #    version: 7
   - distribution: ubuntu
+    version: 18.04
+  - distribution: ubuntu
     version: 16.04
 ## travis/trusty mongodb issue (works inside local kitchen test)
 #  - distribution: ubuntu
@@ -90,6 +92,7 @@ script:
 
 after_failure:
   - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- cat /var/log/supervisor/cowrie.out"
+  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- cat /opt/cowrie/log/cowrie.log"
   - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- cat /var/log/mhn/hpfeeds-broker.log"
   - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- journalctl -xe --no-pager"
 #  - sudo -E su $USER -c "lxc exec run-${distribution}-${version//./} -- find /opt/conpot/"
